@@ -3,10 +3,10 @@
 from os import environ
 from flask import Flask, render_template
 from dotenv import load_dotenv
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required
 from flask_bootstrap import Bootstrap5
 
-from helpers import load_user, csrf
+from helpers import is_admin, load_user, csrf
 from controller.auth import router as login
 from controller.api.base import api
 from controller.api.contact_form import register_resource as contact_form_registry
@@ -50,6 +50,8 @@ def root():
 
 
 @app.get("/dashboard")
+@login_required
+@is_admin
 def dashboard():
     """Dashboard"""
     return render_template("dashboard.html")
