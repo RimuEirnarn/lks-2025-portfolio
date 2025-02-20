@@ -27,7 +27,7 @@ try:
     portfolio_tbl = db.create_table("portfolio", PORTFOLIO_SCHEMA)
     category_tbl = db.create_table("category", CATEGORY_SCHEMA)
     contact_form_tbl = db.create_table("contact_form", CONTACT_FORM_SCHEMA)
-    category_tbl = db.create_table("content", CONTENT_SCHEMA)
+    content_tbl = db.create_table("content", CONTENT_SCHEMA)
     users_tbl.insert(
         {
             "id": str(UUID(int=0)),
@@ -44,4 +44,4 @@ except DatabaseExistsError:
     portfolio_tbl = db.table("portfolio")
     category_tbl = db.table("category")
     contact_form_tbl = db.table("contact_form")
-    category_tbl = db.table("content")
+    content_tbl = db.table("content")

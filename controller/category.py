@@ -9,6 +9,7 @@ from controller.helpers import discard_when_matched, filler
 from db import category_tbl
 from db.helpers import generate_id
 from forms_setup.category import CategoryForm
+from helpers import is_admin
 
 router = Router()
 
@@ -22,6 +23,7 @@ class CategoryController(ResourceDummy):
         return render_template("admin/category.html", data=category_tbl.select())
 
     @login_required
+    @is_admin
     @staticmethod
     def update(res_id):
         form = CategoryForm()
@@ -42,7 +44,7 @@ class CategoryController(ResourceDummy):
             "is_active": form.is_active.data,
             "thumbnail": (
                 ""
-                if file is None
+                if not file.filename
                 else f"static/uploads/{secure_filename(file.filename)}"
             ),
             "updated_at": time(),
@@ -64,11 +66,13 @@ class CategoryController(ResourceDummy):
         return redirect("/category")
 
     @login_required
+    @is_admin
     @staticmethod
     def create():
         return render_template("admin/form/category.html", form=CategoryForm())
 
     @login_required
+    @is_admin
     @staticmethod
     def store():
         form = CategoryForm()
@@ -83,10 +87,9 @@ class CategoryController(ResourceDummy):
                 "id": generate_id(),
                 "title": form.title.data,
                 "sort_description": form.sort_description.data,
-                "created_at": time(),
                 "thumbnail": (
                     ""
-                    if file0 is None
+                    if not file0.filename
                     else f"static/uploads/{secure_filename(file0.filename)}"
                 ),
                 "is_active": form.is_active.data,
@@ -99,6 +102,7 @@ class CategoryController(ResourceDummy):
         return redirect("/category")
 
     @login_required
+    @is_admin
     @staticmethod
     def edit(res_id):
         data = category_tbl.select_one({"id": res_id})
@@ -110,6 +114,7 @@ class CategoryController(ResourceDummy):
         return render_template("admin/form/category.html", form=form)
 
     @login_required
+    @is_admin
     @staticmethod
     def destroy(res_id):
         category_tbl.delete({"id": res_id})
@@ -117,6 +122,7 @@ class CategoryController(ResourceDummy):
         return redirect("/category")
 
     @login_required
+    @is_admin
     @staticmethod
     def show(res_id):
         data = category_tbl.select_one({"id": res_id})
