@@ -1,0 +1,11 @@
+flask
+https://github.com/RimuEirnarn/future_router/archive/main.tar.gz
+sqlite-database
+flask-login
+python-dotenv
+flask-wtf
+bootstrap-flask
+requests
+pyjwt[crypto]
+flask-restful
+Flask-Limiter
