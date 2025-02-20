@@ -11,6 +11,7 @@ USER_SCHEMA = [
     blob("photo").allow_null(),
     text("full_name").allow_null(),
     boolean("is_active").default(True),
+    text('role').default('user')
 ]
 
 VAL_VISIBILITY = (
@@ -20,4 +21,5 @@ VAL_VISIBILITY = (
     "photo",
     "full_name",
     "is_active",
+    "role"
 )

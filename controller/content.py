@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from future_router import Router, ResourceDummy
 from controller.helpers import discard_when_matched, filler
 from db import category_tbl
-from db.content import validate_enum
+from db.content import ContentType, validate_enum
 from db.helpers import generate_id
 from forms_setup.content import ContentForm
 
@@ -36,6 +36,10 @@ class ContentController(ResourceDummy):
             return redirect("/content")
 
         file = form.thumbnail.data
+        
+        if not validate_enum(form.content_type, ContentType):
+            flash("Invalid enum type.", 'danger')
+            return redirect("/content")
 
         pre_entry = {
             "title": form.title.data,
@@ -82,6 +86,10 @@ class ContentController(ResourceDummy):
             return render_template("admin/form/content.html", form=form), 400
 
         file0 = form.thumbnail.data
+        
+        if not validate_enum(form.content_type.data, ContentType):
+            flash("Invalid content type", category="danger")
+            return render_template("admin/form/content.html", form=form), 400
 
         category_tbl.insert(
             {

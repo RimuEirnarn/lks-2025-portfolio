@@ -14,7 +14,7 @@ def is_admin(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if current_user.role != "admin":
-            return render_template("unathorized.html"), 403
+            return render_template("unauthorized.html"), 403
         return func(*args, **kwargs)
 
     return wrapper
@@ -29,10 +29,18 @@ class User(NamedTuple):
     email: str
     photo: str
     is_active: bool
+    role: str
+    
+    def is_empty(self):
+        return all((not self.id, not self.username, not self.full_name, not self.email, not self.photo, self.is_active is None, not self.role))
 
     def is_authenticated(self):
         """Is user authenticated?"""
-        return True
+        return self.is_active if not self.is_empty() else False
+    
+    def is_admin(self):
+        """Is user an admin?"""
+        return self.role == 'admin'
 
     def is_anonymous(self):
         """Is user anonymous?"""
@@ -45,6 +53,8 @@ class User(NamedTuple):
     @classmethod
     def load(cls, **kwargs):
         """Load user based on USER_VISIBILITY"""
+        if not kwargs:
+            return cls("", "", "", "", None, "")
         return cls(
             **{
                 key: value

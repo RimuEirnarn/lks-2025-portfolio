@@ -35,6 +35,7 @@ try:
             "full_name": "System Administrator",
             "password": generate_password_hash(environ.get("ADMIN_PASSWORD", "admin")),
             "email": "admin@localhost.com",
+            "role": 'admin'
         }
     )
 except DatabaseExistsError:

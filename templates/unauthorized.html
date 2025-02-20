@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not Authorized</title>
+
+  {%- include "headers.html" %}
+  {%- from "macros/flash.html" import render_flashes %}
+</head>
+<body>
+  {%- include "components/navbar.html" %}
+
+  {{ render_flashes() }}
+
+  <main class="container">
+    <h4 class="text-danger">Not Authorized</h4>
+    <p>You are not allowed to access this endpoint. Your role is {{ current_user.role }}</p>
+  </main>
+</body>
+</html>

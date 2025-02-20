@@ -1,6 +1,7 @@
 import time
 from flask import request
 from flask_restful import Resource
+from helpers import csrf
 from db.helpers import generate_id
 from limiter import limiter
 
@@ -12,7 +13,7 @@ from .base import api
 class ContactForm(Resource):
     """Contact form"""
 
-    decorators = [limiter.limit("5 per minute")]
+    decorators = [csrf.exempt, limiter.limit("5 per minute")]
 
     def post(self):
 

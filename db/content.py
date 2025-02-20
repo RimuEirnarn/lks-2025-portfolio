@@ -1,4 +1,4 @@
-from enum import StrEnum
+from enum import Enum, StrEnum
 
 from sqlite_database import text, blob, real
 
@@ -14,11 +14,8 @@ class ContentType(StrEnum):
     EXPERIENCE = "experience"
     TESTIMONIAL = "testimonial"
 
-
-def validate_enum(value, enum):
-    if not isinstance(value, enum):
-        raise ValueError(f"Expected {enum.__name__}, got {type(value).__name__}")
-
+def validate_enum(value, enum: Enum):
+    return any((value == member) for member in enum.__member__)
 
 CONTENT_SCHEMA = [
     text("id").primary(),

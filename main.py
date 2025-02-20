@@ -30,7 +30,7 @@ bootstrap = Bootstrap5()
 contact_form_registry()
 api.init_app(app)
 bootstrap.init_app(app)
-# csrf.init_app(app)
+csrf.init_app(app)
 login_manager.init_app(app)
 login_manager.user_loader(load_user)
 # posts.init_app(app)
@@ -39,6 +39,11 @@ category.init_app(app)
 content.init_app(app)
 portfolio.init_app(app)
 
+# ==== SERVER ERROR ====
+
+app.errorhandler(403)
+def unauthorized(_):
+    return render_template("unauthorized.html"), 403
 
 # ==== WEB ROUTE ====
 
@@ -50,6 +55,7 @@ def root():
 
 
 @app.get("/dashboard")
+@is_admin
 @login_required
 def dashboard():
     """Dashboard"""
