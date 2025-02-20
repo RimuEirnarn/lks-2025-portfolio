@@ -14,6 +14,6 @@ class PortfolioForm(FlaskForm):
     meta_title = StringField("Meta title")
     meta_description = StringField("Meta description")
     is_active = BooleanField("Is active")
-    slug = StringField("Slug")
+    slug = StringField("Slug", [DataRequired()])
 
     submit = SubmitField("Save")
