@@ -8,15 +8,41 @@
 
     {%- include "headers.html" %}
     {% from "bootstrap5/table.html" import render_table %}
+    {% from "macros/flash.html" import render_flashes %}
   </head>
 
   <body>
     {%- include "components/navbar.html" %}
 
+    {{ render_flashes() }}
+
     <main class="container mt-3">
       <h1>Category</h1>
 
-      {{ render_table(data)}}
+      <a href="/category/create" class='btn btn-primary mb-2'>Create Category section</a>
+
+      <div class="table-responsive">
+        <table class="table table-primary">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Thumbnail</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for individual in data %}
+            <tr>
+              <td>{{ individual.title }}</td>
+              <td>{{ individual.content }}</td>
+              <td>{{ individual.thumbnail }}</td>
+              <td><a href="/category/{{individual.id}}/edit" class='btn button'>Edit</a></td>
+              {%- endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </main>
   </body>
 

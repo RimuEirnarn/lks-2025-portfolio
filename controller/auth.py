@@ -17,7 +17,6 @@ router = Router()
 @router.route("/register", methods=["GET", "POST"])
 def register():
     """Register"""
-    return redirect("/login")
     form = Register()
     if not form.validate_on_submit():
         return render_template("register.html", form=form)

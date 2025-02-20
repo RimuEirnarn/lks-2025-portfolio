@@ -118,7 +118,7 @@ class ContentController(ResourceDummy):
             return redirect("/content")
 
         form = ContentForm(data=data)
-        return render_template("content.html", form=form)
+        return render_template("admin/form/content.html", form=form)
 
     @login_required
     @staticmethod

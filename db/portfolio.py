@@ -12,7 +12,7 @@ PORTFOLIO_SCHEMA = [
     boolean("is_active"),
     real("created_at"),
     real("updated_at"),
-    text("slugs"),
+    text("slug"),
     text("tags"),
     blob("cover").allow_null(),
     blob("thumbnail").allow_null(),

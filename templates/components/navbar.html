@@ -19,6 +19,11 @@
         <li class="nav-item">
           <a class="nav-link" href="/#testimonials">Testimonials</a>
         </li>
+        {%- if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">Dashboard</a>
+        </li>
+        {%- endif %}
       </ul>
       <a href="/#contact-me" class='btn button'>Contact Me</a>
     </div>

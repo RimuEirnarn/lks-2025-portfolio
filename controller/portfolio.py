@@ -136,7 +136,7 @@ class portfolioController(ResourceDummy):
             return redirect("/portfolio")
 
         form = PortfolioForm(data=data)
-        return render_template("portfolio.html", form=form)
+        return render_template("admin/form/portfolio.html", form=form)
 
     @login_required
     @staticmethod
