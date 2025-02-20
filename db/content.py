@@ -23,6 +23,7 @@ def validate_enum(value, enum):
 CONTENT_SCHEMA = [
     text("id").primary(),
     text("author").foreign("users/id"),
+    text("content_type"),
     text("title"),
     text("sub_title"),
     text("sort_description"),

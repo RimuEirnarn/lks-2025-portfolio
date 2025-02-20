@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category</title>
+
+    {%- include "headers.html" %}
+    {% from "bootstrap5/table.html" import render_table %}
+  </head>
+
+  <body>
+    {%- include "components/navbar.html" %}
+
+    <main class="container mt-3">
+      <h1>Category</h1>
+
+      {{ render_table(data)}}
+    </main>
+  </body>
+
+</html>

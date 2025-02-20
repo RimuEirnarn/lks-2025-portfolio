@@ -1,0 +1,13 @@
+{%- macro render_flashes() %}
+  {%- with messages = get_flashed_messages(with_categories=true) %}
+  <div class="container mt-2 mb-2">
+  {%- if messages %}
+    {%- for category, message in messages %}
+    <div class="alert alert-{{category}}" role="alert">
+      {{ message }}
+    </div>
+    {%- endfor %}
+  {%- endif %}
+  </div>
+{%- endwith %}
+{%- endmacro %}

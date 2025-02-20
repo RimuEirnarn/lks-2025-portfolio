@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Viewer</title>
+    {%- include "headers.html" %}
+    {% from "bootstrap5/form.html" import render_form %}
+  </head>
+
+  <body>
+    {%- include "components/navbar.html" %}
+    <main>
+      <h1>{{ title }}</h1>
+      <p>{{ author }}</p>
+
+      <img src="{{ cover }}" alt="">
+      <img src="{{ thumbnail }}" alt="">
+
+      <p>{{ category }}</p>
+      <p>{{ sort_description }}</p>
+      <p>{{ content_type }}</p>
+      <p>Is active? {{ is_active }}</p>
+      <p>{{ tags }}</p>
+      <p>{{ slug }}</p>
+      <p>{{ meta_title }}</p>
+      <p>{{ meta_description}}</p>
+
+
+      <p>{{content}}</p>
+
+      <img src="{{ thumbnail_data }}" alt="thumbnail">
+    </main>
+  </body>
+
+</html>

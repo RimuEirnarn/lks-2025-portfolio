@@ -1,4 +1,104 @@
-html, body {
+html,
+body {
   width: 100dvw;
   height: 100dvh;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+:root {
+  --primary-color: #5E3BEE;
+  --secondary-color: #282938;
+  --tertiary-color: #F5FCFF;
+  --quaternary-color: #E62872;
+  --quinary-color: #1C1E53;
+
+  --heading-color: var(--secondary-color);
+  --bg-shade: var(--tertiary-color);
+  --dribble: var(--quaternary-color);
+  --body: var(--quinary-color);
+}
+
+.primary {
+  color: var(--primary-color)
+}
+
+.heading-color {
+  color: var(--heading-color);
+}
+
+.bg-shade {
+  background-color: var(--bg-shade);
+}
+
+.dribble {
+  color: var(--dribble);
+}
+
+.body {
+  color: var(--body);
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+.button:hover {
+  background-color: white;
+  border: 1px solid var(--primary-color);
+}
+
+.subtitle {
+  color: #232536;
+}
+
+.nav-shadow {
+  box-shadow: 0px 1px 0px #000;
+}
+
+.active {
+  color: var(--primary-color) !important;
+}
+
+.padding-end {
+  padding-bottom: 4rem !important;
+}
+
+.margin-contact-end {
+  margin-bottom: 4rem !important;
+}
+
+.form-control {
+  border-color: var(--primary-color);
+}
+
+.card {
+  background-color: var(--tertiary-color);
+}
+
+.hero {
+  background-color: var(--tertiary-color);
+}
+
+.box {
+  padding: 0.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.button-dribble {
+  background-color: var(--dribble);
+  color: white;
+}
+
+.height-100 {
+  height: 100vh;
 }

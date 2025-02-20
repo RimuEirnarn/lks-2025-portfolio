@@ -25,15 +25,13 @@ class User(NamedTuple):
 
     id: str
     username: str
-    display_name: str
-    role: str
+    full_name: str
+    email: str
+    photo: str
+    is_active: bool
 
     def is_authenticated(self):
         """Is user authenticated?"""
-        return True
-
-    def is_active(self):
-        """Is user active?"""
         return True
 
     def is_anonymous(self):
@@ -58,7 +56,7 @@ class User(NamedTuple):
 
 def load_user(uid):
     """Load user from UID"""
-    return User.load(**users_tbl.select_one({"id": id}))
+    return User.load(**users_tbl.select_one({"id": uid}))
 
 
 csrf = CSRFProtect()

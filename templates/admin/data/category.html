@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Viewer</title>
+    {%- include "headers.html" %}
+    {% from "bootstrap5/form.html" import render_form %}
+  </head>
+
+  <body>
+    {%- include "components/navbar.html" %}
+    <main>
+      <h1>{{ title }}</h1>
+
+      <p>{{ sort_description }}</p>
+
+      <p>Is active? {{ is_active }}</p>
+
+      <img src="{{ thumbnail_data }}" alt="thumbnail">
+    </main>
+  </body>
+
+</html>

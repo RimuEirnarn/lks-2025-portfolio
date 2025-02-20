@@ -7,6 +7,7 @@ from future_router import Router, ResourceDummy
 from controller.helpers import discard_when_matched, filler
 from db import portfolio_tbl
 from forms_setup.portfolio import PortfolioForm
+from werkzeug.utils import secure_filename
 
 router = Router()
 
@@ -17,7 +18,7 @@ class portfolioController(ResourceDummy):
 
     @staticmethod
     def index():
-        return jsonify({"data": portfolio_tbl.select()})
+        return render_template("admin/portfolio.html", data=portfolio_tbl.select())
 
     @login_required
     @staticmethod
@@ -25,20 +26,31 @@ class portfolioController(ResourceDummy):
         form = PortfolioForm()
         if not form.validate_on_submit():
             flash("Invalid form data", "danger")
-            return render_template("portfolio.html", form=form), 400
+            return render_template("admin/portfolio.html", form=form), 400
 
         data = portfolio_tbl.select_one({"id": res_id})
         if not data:
             flash("portfolio not found", "danger")
             return redirect("/portfolio")
 
+        file0 = form.thumbnail.data
+        file1 = form.cover.data
+
         pre_entry = {
             "title": form.title.data,
             "sort_description": form.sort_description.data,
             "category": form.category.data,
-            "thumbnail": form.thumbnail.data,
+            "thumbnail": (
+                ""
+                if file0 is None
+                else f"static/uploads/{secure_filename(file0.filename)}"
+            ),
             "content": form.content.data,
-            "cover": form.cover.data,
+            "cover": (
+                ""
+                if file1 is None
+                else f"static/uploads/{secure_filename(file1.filename)}"
+            ),
             "meta_title": form.meta_title.data,
             "meta_description": form.meta_description.data,
             "is_active": form.is_active.data,
@@ -46,6 +58,12 @@ class portfolioController(ResourceDummy):
             "tags": form.tags.data,
             "slug": form.slug.data,
         }
+
+        if file0:
+            file0.save(f"static/uploads/{secure_filename(file0.filename)}")
+
+        if file1:
+            file1.save(f"static/uploads/{secure_filename(file1.filename)}")
 
         entry = {"id": res_id, "author": current_user.id}
         entry.update(filler(pre_entry))
@@ -59,7 +77,7 @@ class portfolioController(ResourceDummy):
     @login_required
     @staticmethod
     def create():
-        return render_template("portfolio.html", form=PortfolioForm())
+        return render_template("admin/form/portfolio.html", form=PortfolioForm())
 
     @login_required
     @staticmethod
@@ -69,14 +87,26 @@ class portfolioController(ResourceDummy):
             flash("Invalid form data", "danger")
             return render_template("portfolio.html", form=form), 400
 
+        file0 = form.thumbnail.data
+        file1 = form.cover.data
+
         portfolio_tbl.insert(
             {
+                "id": generate_id(),
                 "title": form.title.data,
                 "sort_description": form.sort_description.data,
                 "category": form.category.data,
-                "thumbnail": form.thumbnail.data,
+                "thumbnail": (
+                    ""
+                    if file0 is None
+                    else f"static/uploads/{secure_filename(file0.filename)}"
+                ),
                 "content": form.content.data,
-                "cover": form.cover.data,
+                "cover": (
+                    ""
+                    if file1 is None
+                    else f"static/uploads/{secure_filename(file1.filename)}"
+                ),
                 "meta_title": form.meta_title.data,
                 "meta_description": form.meta_description.data,
                 "is_active": form.is_active.data,
@@ -87,6 +117,12 @@ class portfolioController(ResourceDummy):
                 "updated_at": time(),
             }
         )
+
+        if file0:
+            file0.save(f"static/uploads/{secure_filename(file0.filename)}")
+
+        if file1:
+            file1.save(f"static/uploads/{secure_filename(file1.filename)}")
         flash("portfolio created successfully", "success")
         return redirect("/portfolio")
 
@@ -116,4 +152,4 @@ class portfolioController(ResourceDummy):
             flash("portfolio not found", "danger")
             return redirect("/portfolio")
 
-        return jsonify({"data": data})
+        return render_template("admin/data/portfolio.html", **data)

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Viewer</title>
+
+    {%- include "headers.html" %}
+    {% from "bootstrap5/form.html" import render_form %}
+  </head>
+
+  <body>
+    {%- include "components/navbar.html" %}
+    <main>
+      <h1>{{ title }}</h1>
+      <h4>{{ sub_title }}</h4>
+
+      <p>{{ content_type }}</p>
+      <p>{{ sort_description }}</p>
+      <p>{{ score }}</p>
+
+      <p>{{ content }}</p>
+
+
+      <img src="{{ thumbnail }}" alt="thumbnail">
+    </main>
+  </body>
+
+</html>

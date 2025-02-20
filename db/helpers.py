@@ -2,9 +2,12 @@
 
 from uuid import uuid4
 
-from sqlite_database.column import create_calls
+from sqlite_database.column import BuilderColumn
 
-boolean = create_calls("boolean", ["boolean"])
+
+def boolean(name: str) -> BuilderColumn:
+    """Create boolean column"""
+    return BuilderColumn().set_type("boolean")(name)
 
 
 def generate_id():

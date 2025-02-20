@@ -1,10 +1,10 @@
-from typing import NotRequired
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, BooleanField, FileField, StringField, SubmitField
+from wtforms.validators import DataRequired
 
 
-class ContentForm(FlaskForm):
-    title = StringField("Category title", [NotRequired()])
+class CategoryForm(FlaskForm):
+    title = StringField("Category title", [DataRequired()])
     sort_description = StringField("Sort description")
     thumbnail = FileField("Thumbnail")
 

@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from future_router import Router
 
 from helpers import User
-from db import users_tbl, posts_tbl, USER_DATA_VISIBILITY
+from db import users_tbl, USER_DATA_VISIBILITY
 from db.helpers import generate_id
 from forms_setup.login import LoginForm
 from forms_setup.register import Register
@@ -17,6 +17,7 @@ router = Router()
 @router.route("/register", methods=["GET", "POST"])
 def register():
     """Register"""
+    return redirect("/login")
     form = Register()
     if not form.validate_on_submit():
         return render_template("register.html", form=form)
@@ -62,6 +63,7 @@ def login():
         flash("Invalid password", "danger")
         return render_template("login.html", form=form)
 
+    print(user)
     login_user(User.load(**user), remember=remember)
 
     flash("Logged in successfully", "success")
@@ -84,5 +86,4 @@ def delete_account():
     user = current_user.id
     logout_user()
     users_tbl.delete_one({"id": user})
-    posts_tbl.delete({"author_id": user})
     flash("Your account has been deleted", "success")

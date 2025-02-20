@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  {%- include "headers.html" %}
+  {% from 'bootstrap5/form.html' import render_form %}
+  {% from "macros/flash.html" import render_flashes %}
+</head>
+
+<body>
+  {%- include "components/navbar.html" %}
+
+  {{ render_flashes() }}
+
+  <div class="container mt-2 m-auto">
+  <h3>Register</h3>
+  {{ render_form(form) }}
+
+  <p class="mt-2">Already have an account? <a href="/login">Login!</a></p>
+  </div>
+</body>
+
+</html>

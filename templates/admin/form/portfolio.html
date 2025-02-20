@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Manager</title>
+
+    {%- include "headers.html" %}
+    {% from "bootstrap5/form.html" import render_form %}
+  </head>
+
+  <body>
+    {%- include "components/navbar.html" %}
+
+    <main class="container mt-3 height-100">
+      <h3>Portfolio Manager</h3>
+
+      <div class='bg-shade'>
+        {{ render_form(form, '/portfolio') }}
+      </div>
+
+      {%- include "components/footer.html" %}
+  </body>
+
+</html>

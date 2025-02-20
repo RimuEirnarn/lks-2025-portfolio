@@ -10,13 +10,12 @@ USER_SCHEMA = [
     text("email").unique(),
     blob("photo").allow_null(),
     text("full_name").allow_null(),
-    boolean("is_active"),
+    boolean("is_active").default(True),
 ]
 
 VAL_VISIBILITY = (
     "username",
-    "display_name",
-    "uid",
+    "id",
     "email",
     "photo",
     "full_name",

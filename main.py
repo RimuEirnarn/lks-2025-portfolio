@@ -11,6 +11,10 @@ from controller.auth import router as login
 from controller.api.base import api
 from controller.api.contact_form import register_resource as contact_form_registry
 
+from controller.category import router as category
+from controller.content import router as content
+from controller.portfolio import router as portfolio
+
 # from controller.api.auth import register_resource as auth_registry
 
 load_dotenv()
@@ -31,6 +35,9 @@ login_manager.init_app(app)
 login_manager.user_loader(load_user)
 # posts.init_app(app)
 login.init_app(app)
+category.init_app(app)
+content.init_app(app)
+portfolio.init_app(app)
 
 
 # ==== WEB ROUTE ====
@@ -52,6 +59,11 @@ def dashboard():
 def about():
     """About us"""
     return render_template("about.html")
+
+
+@app.get("/testing")
+def test():
+    return render_template("testing.html")
 
 
 # ==== RUN ====
