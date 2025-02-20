@@ -178,3 +178,5 @@ cython_debug/
 
 /static/external/*
 !/static/external/REAMDE.md
+
+/static/uploads/*

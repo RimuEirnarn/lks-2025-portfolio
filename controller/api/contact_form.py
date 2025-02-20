@@ -16,7 +16,8 @@ class ContactForm(Resource):
 
     def post(self):
 
-        data = request.json
+        data = dict(request.json)
+        data["full_name"] = data.get("firstname") + " " + data.get("lastname")
 
         if not all(field in data for field in VAL_REQUIRED):
             return {
