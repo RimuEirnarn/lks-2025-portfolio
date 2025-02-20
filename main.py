@@ -51,7 +51,6 @@ def root():
 
 @app.get("/dashboard")
 @login_required
-@is_admin
 def dashboard():
     """Dashboard"""
     return render_template("dashboard.html")

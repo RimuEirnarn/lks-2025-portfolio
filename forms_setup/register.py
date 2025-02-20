@@ -8,7 +8,7 @@ from wtforms.validators import DataRequired, EqualTo, Email
 class Register(FlaskForm):
     """Register"""
 
-    full_name = StringField("Your full name", [DataRequired()])
+    fullname = StringField("Your full name", [DataRequired()])
     username = StringField("Your username", [DataRequired()])
     email = EmailField("Your email", [DataRequired(), Email()])
     photo = FileField("photo")

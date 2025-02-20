@@ -3,6 +3,7 @@
 from flask import flash, redirect, render_template
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from future_router import Router
 
 from helpers import User
@@ -24,19 +25,30 @@ def register():
     if users_tbl.select_one({"username": username}):
         flash("Username already exists")
         return render_template("register.html", form=form)
-    display_name = form.full_name.data
+    fullname = form.fullname.data
     password = form.password.data
+    email = form.email.data
+    photo = form.photo.data
     uid = generate_id()
+
+    if photo.filename:
+        photo.save(f"static/uploads/{secure_filename(photo.filename)}")
 
     users_tbl.insert(
         {
-            "id": id,
-            "display_name": display_name,
+            "id": uid,
+            "full_name": fullname,
+            "email": email,
+            "photo": (
+                f"static/uploads/{secure_filename(photo.filename)}"
+                if photo.filename
+                else ""
+            ),
             "username": username,
             "password": generate_password_hash(password),
         }
     )
-    user = users_tbl.select_one({"uid": uid}, only=USER_DATA_VISIBILITY)
+    user = users_tbl.select_one({"id": uid}, only=USER_DATA_VISIBILITY)
     login_user(User.load(**user))
     flash("Successfully created your account", "success")
     return redirect("/dashboard")

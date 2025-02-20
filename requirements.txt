@@ -4,6 +4,7 @@ sqlite-database
 flask-login
 python-dotenv
 flask-wtf
+wtforms[email]
 bootstrap-flask
 requests
 pyjwt[crypto]
