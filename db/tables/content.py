@@ -1,6 +1,6 @@
 from enum import Enum, StrEnum
 
-from sqlite_database import text, blob, real
+from sqlite_database import text, real
 
 # ? To mitigate sqlite_database limitation for enum, we have to make certain quirks/changes so we can emulate enums within text scale
 # ? This is a workaround for sqlite_database limitation for enum
@@ -25,7 +25,7 @@ SCHEMA = [
     text("sub_title"),
     text("sort_description"),
     text("content"),
-    blob("thumbnail"),
+    text("thumbnail"),
     real("score"),
     real("created_at"),
     real("updated_at"),

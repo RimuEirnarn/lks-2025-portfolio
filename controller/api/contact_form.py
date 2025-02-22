@@ -6,7 +6,7 @@ from db.helpers import generate_id
 from limiter import limiter
 
 from db import contact_form_tbl
-from db.contactform import VAL_REQUIRED
+from db.tables.contactform import VAL_REQUIRED
 from .base import api
 
 

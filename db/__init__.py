@@ -3,6 +3,7 @@
 import os
 import importlib
 import pkgutil
+from os.path import join as path_join
 from uuid import UUID
 # from werkzeug.security import generate_password_hash
 from sqlite_database import Database, Table
@@ -27,13 +28,13 @@ contactform_tbl: Table
 # Dynamically import schema modules
 package = __package__  # 'db'
 schema_modules = [
-    name for _, name, _ in pkgutil.iter_modules([os.path.dirname(__file__)])
+    name for _, name, _ in pkgutil.iter_modules([path_join(os.path.dirname(__file__), 'tables')])
     if not name.startswith("_") and name != "seeder"
 ]
 
 # Dictionary to store created table instances
-tables: dict[str, Table] = {}
-__all__ = ['db', 'tables', 'DB_PATH']
+known_tables: dict[str, Table] = {}
+__all__ = ['db', 'known_tables', 'DB_PATH']
 
 try:
     # **Step 1: Create Tables First**
@@ -43,7 +44,7 @@ try:
 
         if hasattr(module, schema_attr):
             schema = getattr(module, schema_attr)
-            tables[module_name] = db.create_table(module_name, schema)
+            known_tables[module_name] = db.create_table(module_name, schema)
 
     # **Step 2: Seed Data After All Tables Exist**
     seeder_modules = [
@@ -55,7 +56,7 @@ try:
         seeder_module = importlib.import_module(f"{package}.seeder.{seeder_name}")
         if hasattr(seeder_module, "seed") and callable(seeder_module.seed):
             print(f"Seeding {seeder_name}...")
-            seeder_module.seed(tables)  # Pass the table dictionary
+            seeder_module.seed(known_tables)  # Pass the table dictionary
 
     # # Ensure admin user exists
     # users_tbl = tables.get("users")
@@ -73,6 +74,6 @@ try:
 
 except DatabaseExistsError:
     for module_name in schema_modules:
-        tables[module_name] = db.table(module_name)
-        globals()[f"{module_name}_tbl"] = tables[module_name]
+        known_tables[module_name] = db.table(module_name)
+        globals()[f"{module_name}_tbl"] = known_tables[module_name]
         __all__.append(f"{module_name}_tbl")

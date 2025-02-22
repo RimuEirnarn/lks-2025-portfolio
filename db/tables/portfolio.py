@@ -1,4 +1,4 @@
-from sqlite_database import blob, blob, real, text
+from sqlite_database import real, text
 from ..helpers import boolean
 
 
@@ -14,8 +14,8 @@ SCHEMA = [
     real("updated_at"),
     text("slug"),
     text("tags"),
-    blob("cover").allow_null(),
-    blob("thumbnail").allow_null(),
+    text("cover").allow_null(),
+    text("thumbnail").allow_null(),
     text("meta_title"),
     text("meta_tag"),
     text("meta_description"),

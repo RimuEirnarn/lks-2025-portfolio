@@ -5,7 +5,8 @@ from typing import NamedTuple
 from flask import render_template
 from flask_login import current_user
 from flask_wtf import CSRFProtect
-from db import users_tbl, USER_DATA_VISIBILITY
+from db import users_tbl
+from db.tables.users import VAL_VISIBILITY as USER_DATA_VISIBILITY
 
 
 def is_admin(func):

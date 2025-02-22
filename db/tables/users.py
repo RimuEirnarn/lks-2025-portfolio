@@ -8,7 +8,7 @@ SCHEMA = [
     text("username").unique(),
     text("password"),
     text("email").unique(),
-    blob("photo").allow_null(),
+    text("photo").allow_null(),
     text("full_name").allow_null(),
     boolean("is_active").default(True),
     text('role').default('user')

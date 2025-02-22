@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 from future_router import Router
 
 from helpers import User
-from db import users_tbl, USER_DATA_VISIBILITY
+from db import users_tbl
+from db.tables.users import VAL_VISIBILITY as USER_DATA_VISIBILITY
 from db.helpers import generate_id
 from forms_setup.login import LoginForm
 from forms_setup.register import Register

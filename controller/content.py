@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from future_router import Router, ResourceDummy
 from controller.helpers import discard_when_matched, filler
 from db import category_tbl
-from db.content import ContentType, validate_enum
+from db.tables.content import ContentType, validate_enum
 from db.helpers import generate_id
 from forms_setup.content import ContentForm
 
