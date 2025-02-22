@@ -1,7 +1,7 @@
 from sqlite_database import integer, text, real
-from .helpers import boolean
+from ..helpers import boolean
 
-CONTACT_FORM_SCHEMA = [
+SCHEMA = [
     text("id").primary(),
     text("email"),
     text("full_name"),

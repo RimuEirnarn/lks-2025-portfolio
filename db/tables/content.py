@@ -17,7 +17,7 @@ class ContentType(StrEnum):
 def validate_enum(value, enum: Enum):
     return any((value == member) for member in enum.__member__)
 
-CONTENT_SCHEMA = [
+SCHEMA = [
     text("id").primary(),
     text("author").foreign("users/id"),
     text("content_type"),

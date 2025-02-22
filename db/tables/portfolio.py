@@ -1,8 +1,8 @@
 from sqlite_database import blob, blob, real, text
-from .helpers import boolean
+from ..helpers import boolean
 
 
-PORTFOLIO_SCHEMA = [
+SCHEMA = [
     text("id").primary(),
     text("author").foreign("users/id"),
     text("category").foreign("category/id"),

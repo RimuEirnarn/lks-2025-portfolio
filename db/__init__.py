@@ -1,47 +1,78 @@
 """Base Database"""
 
-from os import environ
+import os
+import importlib
+import pkgutil
 from uuid import UUID
-
-from werkzeug.security import generate_password_hash
-from sqlite_database import Database
+# from werkzeug.security import generate_password_hash
+from sqlite_database import Database, Table
 from sqlite_database.errors import DatabaseExistsError
 from dotenv import load_dotenv
 
-from .users import USER_SCHEMA, VAL_VISIBILITY as USER_DATA_VISIBILITY
-from .portfolio import PORTFOLIO_SCHEMA
-from .category import CATEGORY_SCHEMA
-from .contactform import CONTACT_FORM_SCHEMA
-from .content import CONTENT_SCHEMA
-
 load_dotenv()
-DB_PATH = environ.get("DB_PATH", "transient/db.sqlite3")
+DB_PATH = os.environ.get("DB_PATH", "transient/db.sqlite3")
 
 db = Database(DB_PATH)
 
-# ! Content type cannot use Enum due to sqlite_database limitation for enum.
+# Update as you see fit.
+
+users_tbl: Table
+category_tbl: Table
+content_tbl: Table
+portfolio_tbk: Table
+contactform_tbl: Table
+
+#
+
+# Dynamically import schema modules
+package = __package__  # 'db'
+schema_modules = [
+    name for _, name, _ in pkgutil.iter_modules([os.path.dirname(__file__)])
+    if not name.startswith("_") and name != "seeder"
+]
+
+# Dictionary to store created table instances
+tables: dict[str, Table] = {}
+__all__ = ['db', 'tables', 'DB_PATH']
 
 try:
-    db.check_table("users")
-    users_tbl = db.create_table("users", USER_SCHEMA)
-    portfolio_tbl = db.create_table("portfolio", PORTFOLIO_SCHEMA)
-    category_tbl = db.create_table("category", CATEGORY_SCHEMA)
-    contact_form_tbl = db.create_table("contact_form", CONTACT_FORM_SCHEMA)
-    content_tbl = db.create_table("content", CONTENT_SCHEMA)
-    users_tbl.insert(
-        {
-            "id": str(UUID(int=0)),
-            "username": environ.get("ADMIN_USERNAME", "admin"),
-            "full_name": "System Administrator",
-            "password": generate_password_hash(environ.get("ADMIN_PASSWORD", "admin")),
-            "email": "admin@localhost.com",
-            "role": 'admin'
-        }
-    )
+    # **Step 1: Create Tables First**
+    for module_name in schema_modules:
+        module = importlib.import_module(f"{package}.tables.{module_name}")
+        schema_attr = "SCHEMA"
+
+        if hasattr(module, schema_attr):
+            schema = getattr(module, schema_attr)
+            tables[module_name] = db.create_table(module_name, schema)
+
+    # **Step 2: Seed Data After All Tables Exist**
+    seeder_modules = [
+        name for _, name, _ in pkgutil.iter_modules([os.path.join(os.path.dirname(__file__), "seeder")])
+        if not name.startswith("_")
+    ]
+
+    for seeder_name in seeder_modules:
+        seeder_module = importlib.import_module(f"{package}.seeder.{seeder_name}")
+        if hasattr(seeder_module, "seed") and callable(seeder_module.seed):
+            print(f"Seeding {seeder_name}...")
+            seeder_module.seed(tables)  # Pass the table dictionary
+
+    # # Ensure admin user exists
+    # users_tbl = tables.get("users")
+    # if users_tbl:
+    #     users_tbl.insert(
+    #         {
+    #             "id": str(UUID(int=0)),
+    #             "username": os.environ.get("ADMIN_USERNAME", "admin"),
+    #             "full_name": "System Administrator",
+    #             "password": generate_password_hash(os.environ.get("ADMIN_PASSWORD", "admin")),
+    #             "email": "admin@localhost.com",
+    #             "role": "admin",
+    #         }
+    #     )
+
 except DatabaseExistsError:
-    users_tbl = db.table("users")
-    posts_tbl = db.table("posts")
-    portfolio_tbl = db.table("portfolio")
-    category_tbl = db.table("category")
-    contact_form_tbl = db.table("contact_form")
-    content_tbl = db.table("content")
+    for module_name in schema_modules:
+        tables[module_name] = db.table(module_name)
+        globals()[f"{module_name}_tbl"] = tables[module_name]
+        __all__.append(f"{module_name}_tbl")

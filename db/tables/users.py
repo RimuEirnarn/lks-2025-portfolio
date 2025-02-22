@@ -1,9 +1,9 @@
 """Users db model"""
 
 from sqlite_database import blob, text
-from .helpers import boolean
+from ..helpers import boolean
 
-USER_SCHEMA = [
+SCHEMA = [
     text("id").primary(),
     text("username").unique(),
     text("password"),

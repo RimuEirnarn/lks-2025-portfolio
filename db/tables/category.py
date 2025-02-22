@@ -1,7 +1,7 @@
 from sqlite_database import text, blob
-from .helpers import boolean
+from ..helpers import boolean
 
-CATEGORY_SCHEMA = [
+SCHEMA = [
     text("id").primary(),
     text("title"),
     text("sort_description"),

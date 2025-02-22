@@ -10,3 +10,4 @@ requests
 pyjwt[crypto]
 flask-restful
 Flask-Limiter
+faker
